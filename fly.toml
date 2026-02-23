@@ -1,0 +1,25 @@
+# fly.toml — Fly.io deployment config
+app = "workbase-crm"          # change to your app name
+primary_region = "sin"        # Singapore — change to nearest: ams, cdg, dfw, lax, nrt, syd
+
+[build]
+  builder = "paketobuildpacks/builder:base"
+
+[env]
+  PORT = "8090"
+
+[http_service]
+  internal_port       = 8090
+  force_https         = true
+  auto_stop_machines  = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[mounts]]
+  source      = "crm_data"
+  destination = "/data"
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus     = 1
+  memory_mb = 256
